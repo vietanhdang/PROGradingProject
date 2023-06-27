@@ -1,8 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-
-namespace Common.Models
+﻿namespace Common.Models.Base
 {
     /// <summary>
     /// Base entity for all entities

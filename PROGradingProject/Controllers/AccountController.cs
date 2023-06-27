@@ -5,7 +5,6 @@ using Common.Models;
 using DataAccess.DatabaseContext;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using PROGradingAPI.Controllers.Base;
 using static Common.Enumeration.Enumeration;
 
@@ -31,7 +30,7 @@ namespace PROGradingAPI.Controllers
         /// <param name="account"></param>
         /// <returns></returns>
         [HttpPost("register")]
-        public IActionResult Register([FromBody] RegisterRequest account)
+        public IActionResult Register([FromBody] RegisterRequestDTO account)
         {
             if (!ModelState.IsValid)
             {
@@ -54,7 +53,7 @@ namespace PROGradingAPI.Controllers
         /// <param name="account"></param>
         /// <returns></returns>
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginRequest request)
+        public IActionResult Login([FromBody] LoginRequestDTO request)
         {
             if (!ModelState.IsValid)
             {
@@ -83,7 +82,7 @@ namespace PROGradingAPI.Controllers
         /// <returns></returns>
         [HttpPut("{userId}")]
         [Authorize(Policy = "ViewInfoPolicy")]
-        public IActionResult Update(int userId, [FromBody] AccountRequest account)
+        public IActionResult Update(int userId, [FromBody] AccountRequestDTO account)
         {
             if (!ModelState.IsValid)
             {
@@ -108,7 +107,7 @@ namespace PROGradingAPI.Controllers
         /// <returns></returns>
         [HttpPut("password/{userId}")]
         [Authorize(Policy = "ViewInfoPolicy")]
-        public IActionResult UpdatePassword(int userId, [FromBody] UpdatePasswordRequest account)
+        public IActionResult UpdatePassword(int userId, [FromBody] UpdatePasswordRequestDTO account)
         {
             if (!ModelState.IsValid)
             {

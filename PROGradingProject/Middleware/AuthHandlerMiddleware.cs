@@ -1,5 +1,4 @@
 ﻿using Common.Helpers;
-using Microsoft.AspNetCore.Authentication;
 using Newtonsoft.Json;
 using System.Text;
 

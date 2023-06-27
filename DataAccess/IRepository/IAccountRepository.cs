@@ -1,5 +1,4 @@
 ﻿using Common.Models;
-using static Common.Enumeration.Enumeration;
 
 namespace DataAccess.IRepository
 {

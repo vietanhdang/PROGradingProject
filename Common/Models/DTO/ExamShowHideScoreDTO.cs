@@ -1,4 +1,4 @@
-namespace PROGradingAPI.Controllers
+namespace Common.Models
 {
     public class ExamShowHideScoreDTO
     {

@@ -1,5 +1,4 @@
 ﻿using Common.Attributes;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PROGradingAPI.Controllers.Base;
 using static Common.Enumeration.Enumeration;

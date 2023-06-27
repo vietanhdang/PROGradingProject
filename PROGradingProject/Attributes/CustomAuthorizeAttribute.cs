@@ -1,9 +1,6 @@
 ﻿using Common.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Newtonsoft.Json;
-using PROGradingAPI.Attributes;
 using System.Net;
 using System.Security.Claims;
 using static Common.Enumeration.Enumeration;

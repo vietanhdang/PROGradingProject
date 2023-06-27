@@ -1,7 +1,6 @@
-
 namespace Common.Models
 {
-    public class ExamStudentResponse
+    public class ExamStudentResponseDTO
     {
 
         public int ExamId { get; set; }

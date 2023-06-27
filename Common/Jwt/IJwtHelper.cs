@@ -2,6 +2,9 @@
 
 namespace Common.Helpers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface IJwtHelper
     {
         public string GenerateToken(UserInfo account);

@@ -24,7 +24,7 @@ namespace BusinessLogic.Service
             _jwtUltil = jwtUltil;
         }
 
-        public ServiceResponse Login(LoginRequest model)
+        public ServiceResponse Login(LoginRequestDTO model)
         {
             ServiceResponse response = new ServiceResponse();
             var acc = _accountRepository.GetByEmail(model.Email);
@@ -58,7 +58,7 @@ namespace BusinessLogic.Service
             return response;
         }
 
-        public ServiceResponse Register(RegisterRequest account, int role = (int)Role.Student)
+        public ServiceResponse Register(RegisterRequestDTO account, int role = (int)Role.Student)
         {
             ServiceResponse response = new ServiceResponse();
             bool isExist = _accountRepository.CheckEmailOrCodeExist(account.Email, account.Code);
@@ -121,7 +121,7 @@ namespace BusinessLogic.Service
             return response;
         }
 
-        public ServiceResponse Update(int accId, AccountRequest account)
+        public ServiceResponse Update(int accId, AccountRequestDTO account)
         {
             ServiceResponse response = new ServiceResponse();
             bool isExist = _accountRepository.CheckEmailOrCodeExist(account.Email, account.Code, accId);

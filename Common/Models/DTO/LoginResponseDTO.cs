@@ -1,6 +1,6 @@
 ﻿namespace Common.Models
 {
-    public class LoginResponse
+    public class LoginResponseDTO
     {
         public int Id { get; set; }
         public string Email { get; set; }

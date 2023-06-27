@@ -1,5 +1,5 @@
-using BusinessLogic.Base;
 using BusinessLogic;
+using BusinessLogic.Base;
 using BusinessLogic.Service;
 using Common.Helpers;
 using DataAccess.DatabaseContext;
@@ -7,7 +7,6 @@ using DataAccess.IRepository;
 using DataAccess.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;

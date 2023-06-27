@@ -2,7 +2,7 @@
 
 namespace Common.Models
 {
-    public class LoginRequest
+    public class LoginRequestDTO
     {
         [Required]
         [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "Email is not valid")]

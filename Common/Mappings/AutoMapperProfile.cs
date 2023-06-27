@@ -12,6 +12,9 @@ namespace Common.Mappings
             ExamMapper();
         }
 
+        /// <summary>
+        /// Create mapper
+        /// </summary>
         private void ExamMapper()
         {
             CreateMap<ExamRequestDTO, Exam>();
@@ -26,7 +29,7 @@ namespace Common.Mappings
                 .ForMember(dest => dest.IsStudentTakeExam, opt => opt.MapFrom(src => src.ExamStudents != null && src.ExamStudents.Count > 0));
 
             // Binding trên danh sách chi tiết bài thi của sinh viên
-            CreateMap<ExamStudent, ExamStudentResponse>()
+            CreateMap<ExamStudent, ExamStudentResponseDTO>()
                 .ForMember(dest => dest.ExamName, opt => opt.MapFrom(src => src.Exam.ExamName))
                 .ForMember(dest => dest.ExamCode, opt => opt.MapFrom(src => src.Exam.ExamCode))
                 .ForMember(dest => dest.ExamStartTime, opt => opt.MapFrom(src => src.Exam.StartTime))
@@ -35,7 +38,7 @@ namespace Common.Mappings
                 .ForMember(dest => dest.ExamQuestionFolder, opt => opt.MapFrom(src => src.Exam.QuestionFolder))
                 .ForMember(dest => dest.Score, opt => opt.MapFrom(src => src.Exam.IsShowScore ? src.Score : null))
                 .ForMember(dest => dest.MarkLog, opt => opt.MapFrom(src => src.Exam.IsShowScore ? src.MarkLog : null));
-            
+
             // Binding trên danh sách các bài thi của sinh viên
             CreateMap<ExamStudent, ExamStudentList>()
                 .ForMember(dest => dest.ExamName, opt => opt.MapFrom(src => src.Exam.ExamName))
@@ -52,10 +55,10 @@ namespace Common.Mappings
         }
         private void AccountMapper()
         {
-            CreateMap<RegisterRequest, Account>()
+            CreateMap<RegisterRequestDTO, Account>()
                .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Email))
                .ForMember(dest => dest.UpdatedBy, opt => opt.MapFrom(src => src.Email))
-               .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => System.DateTime.Now))
+               .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => DateTime.Now))
                .ForMember(dest => dest.Student, opt => opt.MapFrom(src => src.Role == (int)Role.Student ? new Student()
                {
                    Name = src.Fullname,
@@ -64,7 +67,7 @@ namespace Common.Mappings
                    Address = src.Address,
                    CreatedBy = src.Email,
                    UpdatedBy = src.Email,
-                   CreatedDate = System.DateTime.Now,
+                   CreatedDate = DateTime.Now,
                } : null))
                .ForMember(dest => dest.Teacher, opt => opt.MapFrom(src => src.Role == (int)Role.Teacher ? new Teacher()
                {
@@ -74,7 +77,7 @@ namespace Common.Mappings
                    Address = src.Address,
                    CreatedBy = src.Email,
                    UpdatedBy = src.Email,
-                   CreatedDate = System.DateTime.Now,
+                   CreatedDate = DateTime.Now,
                } : null)); ;
 
             CreateMap<UserInfo, Account>()

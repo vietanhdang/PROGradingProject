@@ -1,5 +1,4 @@
-﻿using System.Net.Http.Headers;
-using Aspose.Zip.Rar;
+﻿using Aspose.Zip.Rar;
 using AutoMapper;
 using BusinessLogic;
 using Common.Attributes;
@@ -9,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PROGradingAPI.Controllers.Base;
+using System.Net.Http.Headers;
 using static Common.Enumeration.Enumeration;
 
 namespace PROGradingAPI.Controllers
@@ -88,7 +88,7 @@ namespace PROGradingAPI.Controllers
                 serviceResponse.OnError(message: "Exam not found");
                 return Ok(serviceResponse);
             }
-            var examDTO = _mapper.Map<ExamStudentResponse>(exam);
+            var examDTO = _mapper.Map<ExamStudentResponseDTO>(exam);
             serviceResponse.OnSuccess(examDTO);
             return Ok(serviceResponse);
         }
@@ -380,7 +380,7 @@ namespace PROGradingAPI.Controllers
             serviceResponse.OnSuccess(examDTO);
             return Ok(serviceResponse);
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -413,7 +413,7 @@ namespace PROGradingAPI.Controllers
             serviceResponse.OnSuccess();
             return Ok(serviceResponse);
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -436,7 +436,7 @@ namespace PROGradingAPI.Controllers
             serviceResponse.OnSuccess();
             return Ok(serviceResponse);
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -543,7 +543,7 @@ namespace PROGradingAPI.Controllers
                 _context.Database.CommitTransaction();
             }
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -657,7 +657,7 @@ namespace PROGradingAPI.Controllers
                 _context.Database.CommitTransaction();
             }
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -687,7 +687,7 @@ namespace PROGradingAPI.Controllers
             memory.Position = 0;
             return File(memory, GetContentType(fullPath), Path.GetFileName(fullPath));
         }
-        
+
         /// <summary>
         /// Unzip file
         /// </summary>
@@ -701,7 +701,7 @@ namespace PROGradingAPI.Controllers
                 }
             }
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -732,7 +732,7 @@ namespace PROGradingAPI.Controllers
             }
             return dirPath;
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -755,7 +755,7 @@ namespace PROGradingAPI.Controllers
                 {".rar", "application/x-rar-compressed" }
             };
         }
-        
+
         /// <summary>
         /// 
         /// </summary>

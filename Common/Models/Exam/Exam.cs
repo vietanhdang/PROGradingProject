@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Common.Models.Base;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -90,7 +91,7 @@ namespace Common.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Status not empty")]
         public int Status { get; set; }
 
-        public bool IsShowScore{ get; set; }
+        public bool IsShowScore { get; set; }
 
         /// <summary>
         /// Teacher's account

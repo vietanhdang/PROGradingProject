@@ -1,6 +1,5 @@
 ﻿using Common.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 
 namespace DataAccess.DatabaseContext

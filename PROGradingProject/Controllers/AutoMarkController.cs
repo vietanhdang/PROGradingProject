@@ -1,11 +1,6 @@
-﻿using Common.Models.Mark;
-using Common.Models;
-using Microsoft.AspNetCore.Http;
+﻿using BusinessLogic;
+using Common.Models.Mark;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
-using BusinessLogic;
 using PROGradingAPI.Controllers.Base;
 
 namespace PROGradingAPI.Controllers

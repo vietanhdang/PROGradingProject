@@ -1,5 +1,4 @@
 ﻿using Common.Models;
-using DataAccess.DatabaseContext;
 
 namespace BusinessLogic
 {

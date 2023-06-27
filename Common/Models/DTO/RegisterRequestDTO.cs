@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Common.Models
 {
-    public class RegisterRequest
+    public class RegisterRequestDTO
     {
         [Required]
         [StringLength(50, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 50 characters")]

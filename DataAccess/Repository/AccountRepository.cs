@@ -1,9 +1,7 @@
-﻿using Common.Enumeration;
-using Common.Models;
+﻿using Common.Models;
 using DataAccess.DatabaseContext;
 using DataAccess.IRepository;
 using Microsoft.EntityFrameworkCore;
-using static Common.Enumeration.Enumeration;
 
 namespace DataAccess.Repository
 {

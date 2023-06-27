@@ -1,9 +1,9 @@
-﻿using Common.Models.Mark;
-using Common.Models;
+﻿using Common.Models;
+using Common.Models.Mark;
+using DataAccess.DatabaseContext;
+using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using DataAccess.DatabaseContext;
 
 namespace BusinessLogic.Service
 {

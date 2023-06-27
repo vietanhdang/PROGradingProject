@@ -1,6 +1,5 @@
 ﻿using Common.Models;
 
-
 namespace BusinessLogic
 {
     /// <summary>
