@@ -1,26 +1,28 @@
-﻿using BusinessLogic.IService;
+﻿using BusinessLogic;
 using Common.Attributes;
 using Common.Helpers;
 using Common.Models;
 using DataAccess.DatabaseContext;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using PROGradingAPI.Controllers.Base;
 using static Common.Enumeration.Enumeration;
 
 namespace PROGradingAPI.Controllers
 {
-   
+
     public class AccountController : BaseNewController
     {
         AppDbContext _context;
         private readonly IJwtHelper _jwtUltil;
         private readonly IAccountService _acc;
 
-        public AccountController(AppDbContext context, IJwtHelper jwtUltil, IAccountService acc, IHttpContextAccessor httpContextAccessor)
+        public AccountController(AppDbContext context, IJwtHelper jwtUltil, IAccountService acc, IHttpContextAccessor httpContextAccessor, IConfiguration configuration) : base(httpContextAccessor, configuration)
         {
-            _context = context;
-            _jwtUltil = jwtUltil;
             _acc = acc;
+            _jwtUltil = jwtUltil;
+            _context = context;
         }
 
         /// <summary>
@@ -156,6 +158,26 @@ namespace PROGradingAPI.Controllers
             else
             {
                 return StatusCode(400, "Update failed");
+            }
+        }
+
+        /// <summary>
+        /// Check token
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("checkToken")]
+        [Authorize]
+        public IActionResult CheckToken()
+        {
+            var token = _httpContext.HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            var result = _jwtUltil.ValidateToken(token);
+            if (result != null)
+            {
+                return StatusCode(200, _acc.GetById(result.AccountId));
+            }
+            else
+            {
+                return StatusCode(400, "Token invalid");
             }
         }
     }

@@ -1,0 +1,14 @@
+[
+  {
+    "questionId": 1,
+    "testCases": [
+      {
+        "inputType": "string",
+        "inputValue": "the fOx brOwn kc",
+        "expectedType": "int",
+        "expected": "3",
+        "score": 1
+      }
+    ]
+  }
+]

@@ -1,5 +1,5 @@
 using BusinessLogic.Base;
-using BusinessLogic.IService;
+using BusinessLogic;
 using BusinessLogic.Service;
 using Common.Helpers;
 using DataAccess.DatabaseContext;
@@ -70,6 +70,7 @@ builder.Services.AddSingleton<IAuthorizationHandler, ViewInfoAuthorizationHandle
 // IOC Container
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAutoMarkService, AutoMarkService>();
 builder.Services.AddSingleton<IJwtHelper, JwtHelper>();
 builder.Services.AddDbContext<AppDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection")));
 builder.Services.AddScoped(typeof(ICache<>), typeof(MemoryCache<>));

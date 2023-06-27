@@ -14,12 +14,12 @@ namespace Common.Models
         /// <summary>
         /// Created date of entity
         /// </summary>
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Updated date of entity
         /// </summary>
-        public DateTime UpdatedDate { get; set; } = DateTime.Now;
+        public DateTime? UpdatedDate { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Created by of entity

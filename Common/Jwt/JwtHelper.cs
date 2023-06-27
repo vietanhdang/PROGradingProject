@@ -32,7 +32,7 @@ namespace Common.Helpers
                 throw new Exception("Jwt key or expire minutes is not configured");
             }
             var tokenHandler = new JwtSecurityTokenHandler(); // create token handler
-            var secretKey = Encoding.ASCII.GetBytes(jwtKey); // get secret key from appsettings.json
+            var secretKey = Encoding.ASCII.GetBytes(jwtKey); // get secret key from appsettings.json9
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -78,12 +78,12 @@ namespace Common.Helpers
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var accountId = int.Parse(jwtToken.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value ?? "");
-                var accountRole = int.Parse(jwtToken.Claims.First(x => x.Type == ClaimTypes.Role)?.Value ?? "");
-                var accountEmail = jwtToken.Claims.First(x => x.Type == ClaimTypes.Email)?.Value;
+                var accountId = int.Parse(jwtToken.Claims.FirstOrDefault(x => x.Type == "nameid")?.Value ?? "");
+                var accountRole = int.Parse(jwtToken.Claims.First(x => x.Type == "role")?.Value ?? "");
+                var accountEmail = jwtToken.Claims.First(x => x.Type == "email")?.Value;
                 var accountPhone = jwtToken.Claims.First(x => x.Type == ClaimTypes.MobilePhone)?.Value;
                 var accountAddress = jwtToken.Claims.First(x => x.Type == ClaimTypes.StreetAddress)?.Value;
-                var accountFullname = jwtToken.Claims.First(x => x.Type == ClaimTypes.Name)?.Value;
+                var accountFullname = jwtToken.Claims.First(x => x.Type == "unique_name")?.Value;
                 var accountCode = jwtToken.Claims.First(x => x.Type == "code")?.Value;
                 return new UserInfo()
                 {

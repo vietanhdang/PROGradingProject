@@ -4,6 +4,7 @@ using DataAccess.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230620172901_GradingSystemV4")]
+    partial class GradingSystemV4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,7 +35,7 @@ namespace DataAccess.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("CreatedDate")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -50,7 +52,7 @@ namespace DataAccess.Migrations
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("UpdatedDate")
+                    b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("AccountId");
@@ -73,7 +75,7 @@ namespace DataAccess.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("CreatedDate")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("EndTime")
@@ -87,9 +89,6 @@ namespace DataAccess.Migrations
                     b.Property<string>("ExamName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsShowScore")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
@@ -116,13 +115,10 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<float?>("TotalScore")
-                        .HasColumnType("real");
-
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("UpdatedDate")
+                    b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("ExamId");
@@ -146,7 +142,7 @@ namespace DataAccess.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("CreatedDate")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("ExamId")
@@ -155,11 +151,11 @@ namespace DataAccess.Migrations
                     b.Property<string>("MarkLog")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float?>("Score")
-                        .HasColumnType("real");
+                    b.Property<int?>("Score")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime?>("StartTime")
-                        .HasColumnType("datetime2");
+                    b.Property<int?>("StartTime")
+                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -170,13 +166,13 @@ namespace DataAccess.Migrations
                     b.Property<string>("SubmitedFolder")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("SubmitedTime")
-                        .HasColumnType("datetime2");
+                    b.Property<int?>("SubmitedTime")
+                        .HasColumnType("int");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("UpdatedDate")
+                    b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("ExamStudentId");
@@ -203,7 +199,7 @@ namespace DataAccess.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("CreatedDate")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -216,7 +212,7 @@ namespace DataAccess.Migrations
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("UpdatedDate")
+                    b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("StudentId");
@@ -242,7 +238,7 @@ namespace DataAccess.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("CreatedDate")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -255,7 +251,7 @@ namespace DataAccess.Migrations
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("UpdatedDate")
+                    b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("TeacherId");

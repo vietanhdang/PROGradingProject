@@ -1,34 +1,23 @@
-﻿
-
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+
 
 namespace Common.Models
 {
-    /// <summary>
-    /// Exam's student
-    /// </summary>
-    [Table("ExamStudents")]
-    public class ExamStudent : BaseEntity
+    public class ExamStudentSubmitDTO
     {
         /// <summary>
         /// Id of entity
         /// </summary>
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public virtual int ExamStudentId { get; set; }
-
-        /// <summary>
-        /// Id of entity
-        /// </summary>
         [ForeignKey("Exam")]
+        [Required(ErrorMessage = "ExamId is required")]
         public int ExamId { get; set; }
 
         /// <summary>
         /// Id of entity
         /// </summary>
         [ForeignKey("Student")]
+        [Required(ErrorMessage = "StudentId is required")]
         public int StudentId { get; set; }
 
         /// <summary>
@@ -49,11 +38,11 @@ namespace Common.Models
         /// <summary>
         /// Student's status
         /// 0: Not submit
-        /// 1: Submit
-        /// 2: Submit late
+        /// 1: Start
+        /// 2: Submit
+        /// 3: Submit late
         /// </summary>
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Status not empty")]
-        public int Status { get; set; }
+        public int? Status { get; set; }
 
         /// <summary>
         /// Student's Log
@@ -63,21 +52,11 @@ namespace Common.Models
         /// <summary>
         /// Student's score
         /// </summary>
-        public float? Score { get; set; }
+        public int? Score { get; set; }
 
         /// <summary>
         /// Count time student submit exam
         /// </summary>
         public int? CountTimeSubmit { get; set; }
-
-        /// <summary>
-        /// Exam
-        /// </summary>
-        public virtual Exam Exam { get; set; } = null!;
-
-        /// <summary>
-        /// Student
-        /// </summary>
-        public virtual Student Student { get; set; } = null!;
     }
 }

@@ -16,7 +16,8 @@ namespace Common.Models
         /// Email of account
         /// </summary>
         [Required(AllowEmptyStrings = false, ErrorMessage = "Email not empty")]
-        [RegularExpression(pattern: @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "Email invalid")]
+        [EmailAddress(ErrorMessage = "Invalid email address.")]
+        [RegularExpression(@"^\S+@fpt\.edu\.vn$", ErrorMessage = "Email must be a valid @fpt.edu.vn address.")]
         public string Email { get; set; }
 
         /// <summary>

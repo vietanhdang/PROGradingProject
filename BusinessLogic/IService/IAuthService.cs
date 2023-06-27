@@ -1,7 +1,7 @@
 ﻿using Common.Models;
 
 
-namespace BusinessLogic.IService
+namespace BusinessLogic
 {
     /// <summary>
     /// Các hàm Ultility liên quan tới Authencation

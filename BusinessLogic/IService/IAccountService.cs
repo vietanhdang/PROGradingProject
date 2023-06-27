@@ -1,7 +1,7 @@
 ﻿using Common.Models;
 using static Common.Enumeration.Enumeration;
 
-namespace BusinessLogic.IService
+namespace BusinessLogic
 {
     public interface IAccountService
     {
