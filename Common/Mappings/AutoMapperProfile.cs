@@ -78,7 +78,7 @@ namespace Common.Mappings
                    CreatedBy = src.Email,
                    UpdatedBy = src.Email,
                    CreatedDate = DateTime.Now,
-               } : null)); ;
+               } : null));
 
             CreateMap<UserInfo, Account>()
                .ForMember(dest => dest.Student, opt => opt.MapFrom(src => src.Role == (int)Role.Student ? new Student()

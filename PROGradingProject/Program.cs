@@ -2,6 +2,7 @@ using BusinessLogic;
 using BusinessLogic.Base;
 using BusinessLogic.Service;
 using Common.Helpers;
+using BusinessLogic.Hubs;
 using DataAccess.DatabaseContext;
 using DataAccess.IRepository;
 using DataAccess.Repository;
@@ -17,18 +18,16 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddSignalR();
+
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.SuppressModelStateInvalidFilter = true;
 });
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", builder =>
-    {
-        builder.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader();
-    });
+    options.AddPolicy("CORSPolicy", builder => builder.AllowAnyMethod().AllowAnyHeader().AllowCredentials().SetIsOriginAllowed((hosts) => true));
 });
 
 builder.Services.AddEndpointsApiExplorer();
@@ -66,14 +65,17 @@ builder.Services.AddAuthorization(options =>
     });
 });
 builder.Services.AddSingleton<IAuthorizationHandler, ViewInfoAuthorizationHandler>();
+
+
 // IOC Container
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<GradingSignalR>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAutoMarkService, AutoMarkService>();
+builder.Services.AddScoped<IExamService, ExamService>();
 builder.Services.AddSingleton<IJwtHelper, JwtHelper>();
 builder.Services.AddDbContext<AppDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection")));
 builder.Services.AddScoped(typeof(ICache<>), typeof(MemoryCache<>));
-
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
@@ -84,8 +86,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("CORSPolicy");
 app.UseRouting();
-app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseMiddleware<AuthHandlerMiddleware>();
 app.UseAuthorization();
@@ -98,6 +100,7 @@ app.UseEndpoints(endpoints =>
         name: "default",
         pattern: "{controller}/{action}/{userId?}"
     );
+    endpoints.MapHub<GradingSignalR>("/gradingsignalr");
 });
 app.UseMiddleware<ErrorHandlerMiddleware>();
 

@@ -8,6 +8,9 @@ using static Common.Enumeration.Enumeration;
 
 namespace BusinessLogic.Service
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class AccountService : IAccountService
     {
         private readonly IAccountRepository _accountRepository;
@@ -23,7 +26,12 @@ namespace BusinessLogic.Service
             _authService = authService;
             _jwtUltil = jwtUltil;
         }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public ServiceResponse Login(LoginRequestDTO model)
         {
             ServiceResponse response = new ServiceResponse();
@@ -45,10 +53,15 @@ namespace BusinessLogic.Service
             return response;
         }
 
-        public ServiceResponse GetById(int accId)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="accId"></param>
+        /// <returns></returns>
+        public ServiceResponse GetById()
         {
             ServiceResponse response = new ServiceResponse();
-            var acc = _accountRepository.GetById(accId);
+            var acc = _accountRepository.GetById(_authService.GetUserId());
             if (acc == null)
             {
                 response.OnError(message: "Account Not Found");
@@ -58,6 +71,12 @@ namespace BusinessLogic.Service
             return response;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="role"></param>
+        /// <returns></returns>
         public ServiceResponse Register(RegisterRequestDTO account, int role = (int)Role.Student)
         {
             ServiceResponse response = new ServiceResponse();
@@ -121,18 +140,34 @@ namespace BusinessLogic.Service
             return response;
         }
 
-        public ServiceResponse Update(int accId, AccountRequestDTO account)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        public ServiceResponse Update(AccountRequestDTO account)
         {
             ServiceResponse response = new ServiceResponse();
-            bool isExist = _accountRepository.CheckEmailOrCodeExist(account.Email, account.Code, accId);
-            if (isExist)
+            //bool isExist = _accountRepository.CheckEmailOrCodeExist(account.Email, account.Code, _authService.GetUserId());
+            //if (isExist)
+            //{
+            //    response.OnError(message: "Email or Code already exist");
+            //    return response;
+            //}
+            Account existingAccount = _accountRepository.GetById(_authService.GetUserId());
+            var role = existingAccount.Role;
+            if (role == (int)Role.Student)
             {
-                response.OnError(message: "Email or Code already exist");
-                return response;
+                existingAccount.Student.Name = account.Fullname;
+                existingAccount.Student.Phone = account.Phone;
+                existingAccount.Student.Address = account.Address;
             }
-            Account existingAccount = _accountRepository.GetById(accId);
-            account.Id = accId;
-            _mapper.Map(account, existingAccount);
+            else if (role == (int)Role.Teacher)
+            {
+                existingAccount.Teacher.Name = account.Fullname;
+                existingAccount.Teacher.Phone = account.Phone;
+                existingAccount.Teacher.Address = account.Address;
+            }
             var updatedAccount = _accountRepository.Update(existingAccount);
             if (updatedAccount == null)
             {
@@ -143,10 +178,16 @@ namespace BusinessLogic.Service
             return response;
         }
 
-        public ServiceResponse UpdatePassword(int accId, string oldPassword, string newPassword)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="oldPassword"></param>
+        /// <param name="newPassword"></param>
+        /// <returns></returns>
+        public ServiceResponse UpdatePassword(string oldPassword, string newPassword)
         {
             ServiceResponse response = new ServiceResponse();
-            Account existingAccount = _accountRepository.GetById(accId);
+            Account existingAccount = _accountRepository.GetById(_authService.GetUserId());
             if (existingAccount == null)
             {
                 response.OnError(message: "Account Not Found");
@@ -169,6 +210,11 @@ namespace BusinessLogic.Service
             return response;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="roles"></param>
+        /// <returns></returns>
         public ServiceResponse UpdateRole(List<RoleUpdate> roles)
         {
             ServiceResponse response = new ServiceResponse();
@@ -179,6 +225,40 @@ namespace BusinessLogic.Service
                 return response;
             }
             response.OnSuccess(message: "Update Role Success");
+            return response;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public ServiceResponse GetUserInfor()
+        {
+            ServiceResponse response = new ServiceResponse();
+            var acc = _accountRepository.GetById(_authService.GetUserId());
+            if (acc == null)
+            {
+                response.OnError(message: "Account Not Found");
+                return response;
+            }
+            response.OnSuccess(_mapper.Map<UserInfo>(acc));
+            return response;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public ServiceResponse DeleteUser()
+        {
+            ServiceResponse response = new ServiceResponse();
+            var deletedAccount = _accountRepository.DeleteUser(_authService.GetUserId());
+            if (!deletedAccount)
+            {
+                response.OnError(message: "Can not delete account because it is related to other data");
+                return response;
+            }
+            response.OnSuccess(message: "Delete Account Success");
             return response;
         }
     }

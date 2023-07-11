@@ -11,7 +11,7 @@ namespace Common.Models
         public string Password { get; set; }
 
         [Required]
-        [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "Email is not valid")]
+        [RegularExpression(@"^\S+@(fpt\.edu\.vn|fe\.edu\.vn)$", ErrorMessage = "Email must be a valid @fpt.edu.vn or @fe.edu.vn address.")]
         public string Email { get; set; }
 
         [Required]
@@ -21,7 +21,7 @@ namespace Common.Models
         public string Code { get; set; }
 
         public string Phone { get; set; }
-        public string Address { get; set; }
+        public string? Address { get; set; }
         public int? Role { get; set; } = 3;
 
         public bool ToLogin { get; set; } = false;

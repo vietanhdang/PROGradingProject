@@ -11,5 +11,7 @@ namespace DataAccess.IRepository
         public Account Update(Account account);
         public bool UpdatePassword(Account account);
         public bool UpdateRole(List<RoleUpdate> roles);
+
+        public bool DeleteUser(int accId);
     }
 }

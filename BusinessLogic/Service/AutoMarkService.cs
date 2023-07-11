@@ -14,13 +14,11 @@ namespace BusinessLogic.Service
     public class AutoMarkService : IAutoMarkService
     {
         private readonly AppDbContext _context;
-
         public AutoMarkService(AppDbContext context)
         {
             _context = context;
         }
-
-        public ServiceResponse Mark(string submittedFolderPath, string testCaseDirectory, int examId, int studentId)
+        public ServiceResponse Mark(AppDbContext context, string submittedFolderPath, string testCaseDirectory, int examId, int studentId)
         {
             ServiceResponse serviceResponse = new ServiceResponse();
             try
@@ -31,14 +29,14 @@ namespace BusinessLogic.Service
                     submittedFolderPath = submittedFolderPath.Substring(0, submittedFolderPath.LastIndexOf("."));
                 }
                 // nếu tồn tại submittedFolderPath thì mới chạy tiếp
-                if (!System.IO.Directory.Exists(submittedFolderPath))
+                if (!Directory.Exists(submittedFolderPath))
                 {
                     serviceResponse.OnError("Submitted folder not found");
                     return serviceResponse;
                 }
 
                 // nếu tồn tại testCaseDirectory thì mới chạy tiếp
-                if (!System.IO.File.Exists(testCaseDirectory))
+                if (!File.Exists(testCaseDirectory))
                 {
                     serviceResponse.OnError("Test case file not found");
                     return serviceResponse;
@@ -51,6 +49,7 @@ namespace BusinessLogic.Service
 
                 try
                 {
+                    // Chuyển đổi file test case thành object
                     questions = JsonConvert.DeserializeObject<List<Question>>(json);
                 }
                 catch (Exception)
@@ -143,12 +142,18 @@ namespace BusinessLogic.Service
                 {
                     try
                     {
-                        var examStudent = _context.ExamStudents.FirstOrDefault(x => x.ExamId == examId && x.StudentId == studentId);
+                        if (context == null)
+                        {
+                            context = _context;
+                        }
+                        // nếu context đã bị dispose thì lấy context mới
+                        var examStudent = context.ExamStudents.FirstOrDefault(x => x.ExamId == examId && x.StudentId == studentId);
                         if (examStudent != null)
                         {
                             examStudent.Score = totalMark;
                             examStudent.MarkLog = JsonConvert.SerializeObject(markLogs);
-                            _context.SaveChanges();
+                            context.ExamStudents.Update(examStudent);
+                            context.SaveChanges();
                         }
                     }
                     catch (Exception ex)

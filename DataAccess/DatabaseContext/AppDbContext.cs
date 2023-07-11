@@ -1,4 +1,5 @@
 ﻿using Common.Models;
+using Common.Models.Chat;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -23,6 +24,7 @@ namespace DataAccess.DatabaseContext
         public virtual DbSet<Teacher> Teachers { get; set; }
         public virtual DbSet<Exam> Exams { get; set; }
         public virtual DbSet<ExamStudent> ExamStudents { get; set; }
+        public virtual DbSet<NoticeMessage> NoticeMessages { get; set; }
 
         /// <summary>
         /// OnConfiguring
@@ -70,6 +72,8 @@ namespace DataAccess.DatabaseContext
             modelBuilder.Entity<Teacher>()
             .HasIndex(t => t.Code)
             .IsUnique();
+
+
 
             base.OnModelCreating(modelBuilder);
         }

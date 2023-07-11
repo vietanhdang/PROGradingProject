@@ -4,6 +4,9 @@ using static Common.Enumeration.Enumeration;
 
 namespace BusinessLogic.Service
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class AuthService : IAuthService
     {
         private readonly IHttpContextAccessor _httpContext;
@@ -13,6 +16,10 @@ namespace BusinessLogic.Service
             _httpContext = httpContext;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public string GetEmail()
         {
             var session = GetUserInfo();
@@ -23,6 +30,10 @@ namespace BusinessLogic.Service
             return string.Empty;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public string GetFullName()
         {
             var session = GetUserInfo();
@@ -33,6 +44,10 @@ namespace BusinessLogic.Service
             return string.Empty;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int GetUserId()
         {
             var session = GetUserInfo();
@@ -43,6 +58,10 @@ namespace BusinessLogic.Service
             return 0;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public UserInfo GetUserInfo()
         {
             UserInfo session = null;
@@ -64,6 +83,10 @@ namespace BusinessLogic.Service
             return session;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool IsAdmin()
         {
             var session = GetUserInfo();
@@ -74,6 +97,10 @@ namespace BusinessLogic.Service
             return false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool IsAuthenticated()
         {
             var authenticated = _httpContext?.HttpContext?.Request?.Headers?.ContainsKey("Authorization");

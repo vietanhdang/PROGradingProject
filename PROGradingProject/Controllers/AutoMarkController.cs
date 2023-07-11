@@ -21,7 +21,7 @@ namespace PROGradingAPI.Controllers
         [HttpPost("Mark")]
         public IActionResult CreateAutoMark([FromBody] AutoMarkRequest autoMark)
         {
-            var result = _autoMarkService.Mark(autoMark.StudentFolder, autoMark.TestCaseFolder, autoMark.ExamId, autoMark.StudentId);
+            var result = _autoMarkService.Mark(null, autoMark.StudentFolder, autoMark.TestCaseFolder, autoMark.ExamId, autoMark.StudentId);
             return StatusCode(200, result);
         }
     }

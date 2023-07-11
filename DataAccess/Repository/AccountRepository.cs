@@ -36,9 +36,9 @@ namespace DataAccess.Repository
 
         public Account Register(Account account)
         {
-            _appDbContext.Database.BeginTransaction();
             try
             {
+                _appDbContext.Database.BeginTransaction();
                 _appDbContext.Accounts.Add(account);
                 _appDbContext.SaveChanges();
                 _appDbContext.Database.CommitTransaction();
@@ -53,9 +53,9 @@ namespace DataAccess.Repository
 
         public Account Update(Account account)
         {
-            _appDbContext.Database.BeginTransaction();
             try
             {
+                _appDbContext.Database.BeginTransaction();
                 _appDbContext.Accounts.Update(account);
                 _appDbContext.SaveChanges();
                 _appDbContext.Database.CommitTransaction();
@@ -71,9 +71,9 @@ namespace DataAccess.Repository
 
         public bool UpdateRole(List<RoleUpdate> roles)
         {
-            _appDbContext.Database.BeginTransaction();
             try
             {
+                _appDbContext.Database.BeginTransaction();
                 if (roles.Count > 0)
                 {
                     foreach (var item in roles)
@@ -96,20 +96,48 @@ namespace DataAccess.Repository
 
         public bool UpdatePassword(Account account)
         {
-            _appDbContext.Database.BeginTransaction();
             try
             {
                 _appDbContext.Accounts.Attach(account);
                 _appDbContext.Entry(account).Property(x => x.Password).IsModified = true;
                 _appDbContext.SaveChanges();
-                _appDbContext.Database.CommitTransaction();
                 return true;
             }
             catch (Exception ex)
             {
-                _appDbContext.Database.RollbackTransaction();
                 throw ex;
             }
+        }
+
+        public bool DeleteUser(int accId)
+        {
+            bool isDeleted = false;
+            try
+            {
+                _appDbContext.Database.BeginTransaction();
+                var acc = GetById(accId);
+                if (acc != null)
+                {
+                    if (acc.Role == (int)Common.Enumeration.Enumeration.Role.Student)
+                    {
+                        _appDbContext.Students.Remove(acc.Student);
+                    }
+                    else
+                    {
+                        _appDbContext.Teachers.Remove(acc.Teacher);
+                    }
+                    _appDbContext.Accounts.Remove(acc);
+                    _appDbContext.SaveChanges();
+                    isDeleted = true;
+                }
+                _appDbContext.Database.CommitTransaction();
+            }
+            catch (Exception)
+            {
+                isDeleted = false;
+                _appDbContext.Database.RollbackTransaction();
+            }
+            return isDeleted;
         }
     }
 }

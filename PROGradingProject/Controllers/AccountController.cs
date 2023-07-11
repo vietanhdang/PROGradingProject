@@ -17,11 +17,13 @@ namespace PROGradingAPI.Controllers
         private readonly IJwtHelper _jwtUltil;
         private readonly IAccountService _acc;
 
+
         public AccountController(AppDbContext context, IJwtHelper jwtUltil, IAccountService acc, IHttpContextAccessor httpContextAccessor, IConfiguration configuration) : base(httpContextAccessor, configuration)
         {
             _acc = acc;
             _jwtUltil = jwtUltil;
             _context = context;
+
         }
 
         /// <summary>
@@ -32,9 +34,20 @@ namespace PROGradingAPI.Controllers
         [HttpPost("register")]
         public IActionResult Register([FromBody] RegisterRequestDTO account)
         {
+            ServiceResponse response = new ServiceResponse();
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                // convert model state error to string 
+                Dictionary<string, string[]> errors = new Dictionary<string, string[]>();
+                foreach (var item in ModelState)
+                {
+                    if (item.Value.Errors.Count > 0)
+                    {
+                        errors.Add(item.Key, item.Value.Errors.Select(x => x.ErrorMessage).ToArray());
+                    }
+                }
+                response.OnError(message: "Invalid data", data: errors);
+                return StatusCode(200, response);
             }
             var result = _acc.Register(account);
             if (result != null)
@@ -75,20 +88,39 @@ namespace PROGradingAPI.Controllers
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpDelete]
+        [Authorize]
+        public IActionResult Delete()
+        {
+            var result = _acc.DeleteUser();
+            if (result != null)
+            {
+                return StatusCode(200, result);
+            }
+            else
+            {
+                return StatusCode(400, "Delete failed");
+            }
+        }
+
+        /// <summary>
         /// Update account
         /// </summary>
         /// <param name="accId"></param>
         /// <param name="account"></param>
         /// <returns></returns>
-        [HttpPut("{userId}")]
-        [Authorize(Policy = "ViewInfoPolicy")]
-        public IActionResult Update(int userId, [FromBody] AccountRequestDTO account)
+        [HttpPut]
+        [Authorize]
+        public IActionResult Update([FromBody] AccountRequestDTO account)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var result = _acc.Update(userId, account);
+            var result = _acc.Update(account);
             if (result != null)
             {
                 return StatusCode(200, result);
@@ -105,15 +137,15 @@ namespace PROGradingAPI.Controllers
         /// <param name="accId"></param>
         /// <param name="account"></param>
         /// <returns></returns>
-        [HttpPut("password/{userId}")]
-        [Authorize(Policy = "ViewInfoPolicy")]
-        public IActionResult UpdatePassword(int userId, [FromBody] UpdatePasswordRequestDTO account)
+        [HttpPut("changepassword")]
+
+        public IActionResult UpdatePassword([FromBody] UpdatePasswordRequestDTO account)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var result = _acc.UpdatePassword(userId, account.OldPassword, account.NewPassword);
+            var result = _acc.UpdatePassword(account.OldPassword, account.NewPassword);
             if (result != null)
             {
                 return StatusCode(200, result);
@@ -129,11 +161,11 @@ namespace PROGradingAPI.Controllers
         /// </summary>
         /// <param name="accId"></param>
         /// <returns></returns>
-        [HttpGet("{userId}")]
-        [Authorize(Policy = "ViewInfoPolicy")]
-        public IActionResult GetById(int userId)
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetUserInfo()
         {
-            return StatusCode(200, _acc.GetById(userId));
+            return StatusCode(200, _acc.GetUserInfor());
         }
 
         /// <summary>
@@ -172,7 +204,7 @@ namespace PROGradingAPI.Controllers
             var result = _jwtUltil.ValidateToken(token);
             if (result != null)
             {
-                return StatusCode(200, _acc.GetById(result.AccountId));
+                return StatusCode(200, _acc.GetById());
             }
             else
             {
@@ -181,3 +213,4 @@ namespace PROGradingAPI.Controllers
         }
     }
 }
+
